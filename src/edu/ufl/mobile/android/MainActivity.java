@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * Load the UF Mobile website in a WebView.
@@ -21,43 +22,29 @@ public class MainActivity extends Activity {
     protected Dialog mSplashDialog;
     
     /**
+     * WebView used to display the UF Mobile website.
+     */
+    protected WebView mWebView;
+
+    /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MyStateSaver data = (MyStateSaver) getLastNonConfigurationInstance();
-        if (data != null) {
-            // Show splash screen if still loading
-            if (data.showSplashScreen) {
-                showSplashScreen();
+        showSplashScreen();
+        setContentView(R.layout.main);
+
+        mWebView = (WebView) findViewById(R.id.webview);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                removeSplashScreen();
             }
+        });
 
-            setContentView(R.layout.main);
-        }
-        else {
-            showSplashScreen();
-            setContentView(R.layout.main);
-
-            WebView view = (WebView) findViewById(R.id.webview);
-            view.getSettings().setJavaScriptEnabled(true);
-            view.loadUrl("http://m.ufl.edu/");
-            
-            removeSplashScreen();
-        }
-    }
-
-    @Override
-    public Object onRetainNonConfigurationInstance() {
-        MyStateSaver data = new MyStateSaver();
-        
-        if (mSplashDialog != null) {
-            data.showSplashScreen = true;
-            removeSplashScreen();
-        }
-        
-        return data;
+        mWebView.loadUrl("http://m.ufl.edu/");
     }
 
     /**
@@ -78,12 +65,5 @@ public class MainActivity extends Activity {
             mSplashDialog.dismiss();
             mSplashDialog = null;
         }
-    }
-
-    /**
-     * Simple class for storing data across configuration changes.
-     */
-    private class MyStateSaver {
-        public boolean showSplashScreen = false;
     }
 }
