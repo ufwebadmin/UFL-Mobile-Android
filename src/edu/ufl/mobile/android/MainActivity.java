@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyWebViewClient());
 
-        mWebView.loadUrl("http://m.ufl.edu/");
+        mWebView.loadUrl("http://m.ufl.edu/?utm_campaign=Mobile+Apps&utm_source=Android&utm_medium=Startup");
     }
 
     @Override
