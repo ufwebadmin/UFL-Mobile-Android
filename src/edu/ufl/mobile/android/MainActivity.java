@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
 
         mWebView = (WebView) findViewById(R.id.webview);
+        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyWebViewClient());
 
