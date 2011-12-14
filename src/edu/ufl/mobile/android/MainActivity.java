@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -45,6 +46,17 @@ public class MainActivity extends Activity {
         mWebView.setWebViewClient(new MyWebViewClient());
 
         mWebView.loadUrl("http://m.ufl.edu/");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Check if the back button was tapped and that there is history
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
