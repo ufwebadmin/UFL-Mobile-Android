@@ -19,6 +19,9 @@ import android.widget.Toast;
  * @author dwc
  */
 public class MainActivity extends Activity {
+    /**
+     * The tag used in log entries for this Activity.
+     */
     private static final String TAG = "UFMobile";
 
     /**
@@ -32,7 +35,8 @@ public class MainActivity extends Activity {
     protected WebView mWebView;
 
     /**
-     * Called when the activity is first created.
+     * When the Activity is first created, show the splash screen and begin
+     * loading UF Mobile.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,9 @@ public class MainActivity extends Activity {
         mWebView.loadUrl("http://m.ufl.edu/?utm_campaign=Mobile+Apps&utm_source=Android&utm_medium=Startup");
     }
 
+    /**
+     * Called when a button is pressed.
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Check if the back button was tapped and that there is history
@@ -80,12 +87,24 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Hide the splash screen when UF Mobile first finishes loading. Also,
+     * handle any errors loading URLs by showing a toast notification.
+     *
+     * @author dwc
+     */
     private class MyWebViewClient extends WebViewClient {
+        /**
+         * Remove the splash screen when the page is finished loading.
+         */
         @Override
         public void onPageFinished(WebView view, String url) {
             removeSplashScreen();
         }
 
+        /**
+         * Show a friendly error message when there is a problem loading a URL.
+         */
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String url) {
             Log.i(TAG, "Error loading " + url + ": " + description + " (" + errorCode + ")");
